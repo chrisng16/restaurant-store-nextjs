@@ -1,20 +1,20 @@
 import React from "react";
 import Drawer from "./Drawer";
 import { Button } from "../ui/button";
-import { CartIcon } from "../Icons";
 import SearchBox from "./SearchBox";
+import { Icons } from "../Icons";
 
 const Header = () => {
   return (
-    <div className="sticky h-16 top-0 flex justify-between z-20 w-full overflow-x-clip bg-color-main text-color-secondary text-center font-leagueSpartan backdrop-blur-md dark:bg-black/30">
-      <a className="flex-shrink-0 mt-2 p-2 px-6 text-center font-great-vibes font-normal text-3xl">
+    <div className="font-leagueSpartan sticky top-0 z-20 flex h-16 w-full justify-between overflow-x-clip bg-color-main text-center text-color-secondary backdrop-blur-md dark:bg-black/30">
+      <a className="mt-2 flex-shrink-0 p-2 px-6 text-center font-great-vibes text-3xl font-normal">
         Online Restaurant
       </a>
       <nav className="flex grow items-center justify-between gap-4 p-2">
         <SearchBox />
         <div className="flex justify-end gap-2">
           <Button>
-            <CartIcon /> <span className="leading-10 text-base">0</span>
+            <Icons.Cart /> <span className="text-base leading-10">0</span>
           </Button>
           <Button>Sign In</Button>
           <Button>Sign Up</Button>
