@@ -1,9 +1,8 @@
 "use client";
-import React from "react";
-import HorizontalScollArea from "./HorizontalScollArea";
 import data from "@/lib/data";
 import Card from "./Card";
 import useActiveDiv from "@/hooks/use-active-element";
+import HorizontalScollArea from "./HorizontalScollArea";
 
 const categories: Array<string> = [
   "Appetizers",
@@ -28,22 +27,23 @@ const CardsView = () => {
 
   return (
     <div className="relative h-auto w-full">
-      
       <div className="max-w-screen sticky top-16 z-10 block w-full bg-white">
-        <HorizontalScollArea items={categories} activeElement={activeDiv.id} />
+        <HorizontalScollArea categories={categories} activeElement={activeDiv} />
       </div>
 
       <div>
         {categories.map((category, index) => (
-          <div data-id={category} key={index} className="p-2 pb-10 pt-4">
-            <h3 id={category} className="scroll-mt-28 p-4 pt-0 text-3xl">
-              {category}
-            </h3>
+          <div
+            id={category}
+            key={index}
+            className="scroll-mt-28 p-2 pb-10 pt-4"
+          >
+            <h3 className="p-4 pt-0 text-3xl">{category}</h3>
             <div className="grid w-full grid-cols-1 gap-2 sm:grid-cols-2 xl:grid-cols-3">
               {data
                 .filter((item) => item.category === category)
-                .map((filteredItem, i) => (
-                  <Card key={i} item={filteredItem} />
+                .map((filteredItems, i) => (
+                  <Card key={i} item={filteredItems} />
                 ))}
             </div>
           </div>

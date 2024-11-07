@@ -1,51 +1,38 @@
 "use client"
 import { useEffect, useState } from "react";
 
-interface ActiveDivState {
-    id: string | null; // ID of the active div, or null if none is active
-}
 
 interface Options {
     offset: number; // Offset from the top of the viewport in pixels
 }
 
-const useActiveDiv = (ids: string[], options: Options): ActiveDivState => {
+const useActiveDiv = (ids: string[], options: Options): string => {
     const { offset } = options;
-    const [activeDiv, setActiveDiv] = useState<string | null>(null);
+    const [activeDiv, setActiveDiv] = useState<string>("");
 
     useEffect(() => {
         // Locate each target div element
-        const elements = ids.map((id) => document.querySelector(`[data-id="${id}"]`));
+        const elements = ids.map((id) => document.querySelector(`[id="${id}"]`));
 
         // Scroll event handler
         const handleScroll = () => {
-            const inViewElements: { id: string; distance: number }[] = [];
+            let inViewElement: string = "";
 
             elements.forEach((element) => {
                 if (!element) return;
 
-                const divId = element.getAttribute("data-id");
+                const divId = element.getAttribute("id");
                 if (!divId) return;
 
                 const rect = element.getBoundingClientRect();
                 const topReached = rect.top <= offset;
-                const bottomPassed = rect.bottom < offset;
+                const bottomPassed = rect.bottom <= offset;
 
                 if (topReached && !bottomPassed) {
-                    const distance = Math.abs(rect.top - offset);
-                    inViewElements.push({ id: divId, distance });
+                    inViewElement = divId;
                 }
             });
-
-            // Activate the div closest to the offset, if any
-            if (inViewElements.length > 0) {
-                const closestElement = inViewElements.reduce((closest, element) =>
-                    element.distance < closest.distance ? element : closest
-                );
-                setActiveDiv(closestElement.id);
-            } else {
-                setActiveDiv(null);
-            }
+            setActiveDiv(inViewElement)
         };
 
         // Attach scroll event listener
@@ -60,7 +47,7 @@ const useActiveDiv = (ids: string[], options: Options): ActiveDivState => {
         };
     }, [ids, offset]);
 
-    return { id: activeDiv };
+    return activeDiv;
 };
 
 export default useActiveDiv;
