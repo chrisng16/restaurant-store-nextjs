@@ -1,8 +1,10 @@
+"use client";
 import React from "react";
 import Drawer from "./Drawer";
 import { Button } from "../ui/button";
 import SearchBox from "./SearchBox";
 import { Icons } from "../Icons";
+
 
 const Header = () => {
   return (
@@ -16,8 +18,14 @@ const Header = () => {
           <Button>
             <Icons.Cart /> <span className="text-base leading-10">0</span>
           </Button>
-          <Button>Sign In</Button>
-          <Button>Sign Up</Button>
+          <Button>
+            Sign In
+          </Button>
+          <Button>
+            Sign Up
+          </Button>
+          
+          
           <Drawer />
         </div>
       </nav>

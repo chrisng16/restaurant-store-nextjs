@@ -7,3 +7,72 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  USER
+  ADMIN
+}
+
+model User {
+  id        String   @id @default(cuid())
+  username  String   @unique
+  email     String   @unique
+  phone     String   @unique
+  firstName String
+  lastName  String
+  roles     Role[]   @default([USER])
+  createAd  DateTime @default(now())
+}
+
+model Item {
+  id         Int      @id @default(autoincrement())
+  name       String
+  desc       String
+  category   Category @relation(fields: [catId], references: [id])
+  catId      Int
+  price      Int
+  isAvaiable Boolean  @default(true)
+  menuNum    String
+  optionList Option[]
+}
+
+model Option {
+  id         Int            @id @default(autoincrement())
+  isOptional Boolean
+  options    OptionChoice[]
+  Item       Item[]
+}
+
+model OptionChoice {
+  id        Int      @id @default(autoincrement())
+  name      String
+  unitPrice Int
+  Option    Option[]
+}
+
+model Category {
+  id       Int    @id @default(autoincrement())
+  category String @unique
+  Item     Item[]
+}
+
+model CartItem {
+  id        String @id @default(cuid())
+  itemId    Int
+  optionIds Int[]
+  count     Int
+  Cart      Cart[]
+}
+
+model Cart {
+  id           String     @id @default(cuid())
+  cartItems    CartItem[]
+  cartSubTotal Int
+  Order        Order[]
+}
+
+model Order {
+  id      String  @id @default(cuid())
+  cart    Cart    @relation(fields: [cartId], references: [id])
+  cartId  String
+  isPayed Boolean @default(false)
+}
