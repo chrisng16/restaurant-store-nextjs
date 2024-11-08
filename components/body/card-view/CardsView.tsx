@@ -21,6 +21,13 @@ const categories: Array<string> = [
   "Extras",
 ];
 
+const foodItems = [...data];
+foodItems.sort((a, b) =>
+  Number(a.menuNum.replace(/\D+/g, "")) > Number(b.menuNum.replace(/\D+/g, ""))
+    ? 1
+    : -1,
+);
+
 const CardsView = () => {
   const offset = 120; // Pixels from the top of the viewport
   const activeDiv = useActiveDiv(categories, { offset });
@@ -28,7 +35,10 @@ const CardsView = () => {
   return (
     <div className="relative h-auto w-full">
       <div className="max-w-screen sticky top-16 z-10 block w-full bg-white">
-        <HorizontalScollArea categories={categories} activeElement={activeDiv} />
+        <HorizontalScollArea
+          categories={categories}
+          activeElement={activeDiv}
+        />
       </div>
 
       <div>
@@ -40,7 +50,7 @@ const CardsView = () => {
           >
             <h3 className="p-4 pt-0 text-3xl">{category}</h3>
             <div className="grid w-full grid-cols-1 gap-2 sm:grid-cols-2 xl:grid-cols-3">
-              {data
+              {foodItems
                 .filter((item) => item.category === category)
                 .map((filteredItems, i) => (
                   <Card key={i} item={filteredItems} />
