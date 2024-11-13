@@ -15,33 +15,49 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Icons } from "../Icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { signin } from "@/actions/auth";
+import AuthWithSocial from "./AuthWithSocial";
+import FormStatusMessage from "./FormStatusMessage";
+import { useSearchParams } from "next/navigation";
+import Link from "next/link";
+import { SignInFormSchema } from "@/lib/schemas";
 
-const formSchema = z.object({
-  email: z.string({ required_error: "Required" }).email({
-    message: "Incorrect email format",
-  }),
-  password: z.string({ required_error: "Required" }),
-});
+export function SignInForm() {
+  const searchParams = useSearchParams();
 
-export function SignInForm({ closeDialog }: { closeDialog: () => void }) {
   const { toast } = useToast();
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const [submitResults, setSubmitResults] = useState<
+    Record<string, boolean | null | string>
+  >({
+    isSuccess: null,
+    message: "searchParamsError",
+  });
+
+  useEffect(() => {
+    const searchParamsError = searchParams.get("error");
+    console.log(searchParamsError);
+    if (searchParamsError === "OAuthAccountNotLinked") {
+      setSubmitResults({
+        isSuccess: false,
+        message: "Email was used with another sign in method",
+      });
+    }
+  }, [searchParams]);
+
+  const form = useForm<z.infer<typeof SignInFormSchema>>({
+    resolver: zodResolver(SignInFormSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    toast({
-      title: "Submitted",
-      description: JSON.stringify(values),
-    });
-    closeDialog();
+  async function onSubmit(values: z.infer<typeof SignInFormSchema>) {
+    await signin(values);
+    location.reload();
+    // closeDialog();
   }
 
   const handlePasswordVisibility = (e: React.MouseEvent<HTMLElement>) => {
@@ -52,7 +68,13 @@ export function SignInForm({ closeDialog }: { closeDialog: () => void }) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <AuthWithSocial />
+      <div className="m-0 my-4 flex items-center gap-2 p-0">
+        <span className="h-px w-full border border-muted-foreground/20" />
+        <span>or</span>
+        <span className="h-px w-full border border-muted-foreground/20" />
+      </div>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
         <div className="grid grid-cols-2 gap-4">
           <FormField
             control={form.control}
@@ -96,7 +118,15 @@ export function SignInForm({ closeDialog }: { closeDialog: () => void }) {
             )}
           />
         </div>
-
+        {submitResults.isSuccess !== null && (
+          <FormStatusMessage
+            message={submitResults.message as string}
+            type={submitResults.isSuccess ? "success" : "error"}
+          />
+        )}
+        <Button variant="link" className="mb-4 mt-2 justify-start p-0">
+          <Link href={"/auth/reset-password"}>Forgot password?</Link>
+        </Button>
         <Button className="w-full" type="submit">
           Sign In
         </Button>

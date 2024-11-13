@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -21,11 +20,10 @@ type AuthButton = {
 export function AuthButton({ children, type }: AuthButton) {
   const [open, setOpen] = useState(false);
   const [openDialog, setOpenDialog] = useState(type);
-  console.log(type);
 
-  function closeDialog() {
-    setOpen(false);
-  }
+  // function closeDialog() {
+  //   setOpen(false);
+  // }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -38,10 +36,10 @@ export function AuthButton({ children, type }: AuthButton) {
               Welcome back! Please sign in to continue
             </DialogDescription>
           </DialogHeader>
-          <SignInForm closeDialog={closeDialog} />
+          <SignInForm  />
           <DialogFooter className="text-xs">
             <span className="text-muted-foreground">
-              Don't have an account?
+              Don&apos;t have an account?
             </span>
             <span
               className="hover:underline"
@@ -59,7 +57,7 @@ export function AuthButton({ children, type }: AuthButton) {
               Welcome! Please fill in some quick details to get started
             </DialogDescription>
           </DialogHeader>
-          <SignUpForm closeDialog={closeDialog} />
+          <SignUpForm />
           <DialogFooter className="text-xs">
             <span className="text-muted-foreground">
               Already have an account?

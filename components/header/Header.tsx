@@ -1,10 +1,9 @@
-"use client";
 import React from "react";
 import Drawer from "./Drawer";
 import { Button } from "../ui/button";
 import SearchBox from "./SearchBox";
 import { Icons } from "../Icons";
-import { AuthButton } from "../auth/AuthButton";
+import UserButton from "./UserButton";
 
 const Header = () => {
   return (
@@ -17,19 +16,12 @@ const Header = () => {
       </a>
       <nav className="flex grow items-center justify-between gap-4 p-2">
         <SearchBox />
-        <div className="flex justify-end gap-2">
+        <div className="flex items-center justify-end gap-2">
           <Button>
             <Icons.Cart /> <span className="text-base leading-10">0</span>
           </Button>
-
-          <AuthButton type="sign-in">
-            <Button>Sign In</Button>
-          </AuthButton>
-
-          <AuthButton type="sign-up">
-            <Button>Sign Up</Button>
-          </AuthButton>
-          <Drawer />
+          <UserButton />
+          {/* <Drawer /> */}
         </div>
       </nav>
     </div>
