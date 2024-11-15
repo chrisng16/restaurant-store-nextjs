@@ -84,7 +84,7 @@ export async function signin(values: z.infer<typeof SignInFormSchema>) {
             email,
             password,
             redirectTo: '/'
-        });
+        })
     } catch (error) {
         if (error instanceof AuthError) {
             switch (error.type) {

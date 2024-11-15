@@ -1,22 +1,19 @@
 "use client"
 import { useEffect, useState } from "react";
+import { debounce } from "lodash";
 
-
-interface Options {
-    offset: number; // Offset from the top of the viewport in pixels
-}
-
-const useActiveDiv = (ids: string[], options: Options): string => {
-    const { offset } = options;
+const useActiveElement = (ids: string[], offset?: number): string => {
     const [activeDiv, setActiveDiv] = useState<string>("");
+
+    const offsetFromTop = offset || 130
 
     useEffect(() => {
         // Locate each target div element
         const elements = ids.map((id) => document.querySelector(`[id="${id}"]`));
 
         // Scroll event handler
-        const handleScroll = () => {
-            let inViewElement: string = "";
+        const handleScroll = debounce(() => {
+            let inViewElement = "";
 
             elements.forEach((element) => {
                 if (!element) return;
@@ -25,15 +22,15 @@ const useActiveDiv = (ids: string[], options: Options): string => {
                 if (!divId) return;
 
                 const rect = element.getBoundingClientRect();
-                const topReached = rect.top <= offset;
-                const bottomPassed = rect.bottom <= offset;
+                const topReached = rect.top <= offsetFromTop;
+                const bottomPassed = rect.bottom <= offsetFromTop + 1;
 
                 if (topReached && !bottomPassed) {
                     inViewElement = divId;
                 }
             });
-            setActiveDiv(inViewElement)
-        };
+            setActiveDiv(inViewElement);
+        }, 50); // Adjust debounce delay as needed
 
         // Attach scroll event listener
         window.addEventListener("scroll", handleScroll);
@@ -45,9 +42,9 @@ const useActiveDiv = (ids: string[], options: Options): string => {
         return () => {
             window.removeEventListener("scroll", handleScroll);
         };
-    }, [ids, offset]);
+    }, [ids, offsetFromTop]);
 
     return activeDiv;
 };
 
-export default useActiveDiv;
+export default useActiveElement;

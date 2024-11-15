@@ -3,7 +3,7 @@ import { Icons } from "../Icons";
 
 const SearchBox = () => {
   return (
-    <div className="flex w-2/3 max-w-xl rounded-full bg-white/20 p-2">
+    <div className="hidden w-2/3 max-w-xl rounded-full bg-white/20 p-2 md:flex">
       <Icons.Search className="mx-2" />
       <input
         className="grow bg-transparent placeholder:text-color-secondary/50 focus:outline-none search-cancel:size-4 search-cancel:cursor-pointer search-cancel:appearance-none search-cancel:bg-[url('/x-icon.svg')]"

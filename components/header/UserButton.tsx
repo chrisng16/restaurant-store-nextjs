@@ -27,7 +27,7 @@ const UserButton = () => {
         <Button id="sign-in" onClick={handleClick}>
           Sign In
         </Button>
-        <Button id="sign-up" onClick={handleClick}>
+        <Button id="sign-up" onClick={handleClick} className="hidden sm:block">
           Sign Up
         </Button>
       </>

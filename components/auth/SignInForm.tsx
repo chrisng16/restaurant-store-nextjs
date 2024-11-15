@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useToast } from "@/hooks/use-toast";
+// import { useToast } from "@/hooks/use-toast";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../ui/button";
@@ -26,7 +26,7 @@ import { SignInFormSchema } from "@/lib/schemas";
 export function SignInForm() {
   const searchParams = useSearchParams();
 
-  const { toast } = useToast();
+  // const { toast } = useToast();
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const [submitResults, setSubmitResults] = useState<
     Record<string, boolean | null | string>
@@ -37,7 +37,6 @@ export function SignInForm() {
 
   useEffect(() => {
     const searchParamsError = searchParams.get("error");
-    console.log(searchParamsError);
     if (searchParamsError === "OAuthAccountNotLinked") {
       setSubmitResults({
         isSuccess: false,
@@ -55,9 +54,12 @@ export function SignInForm() {
   });
 
   async function onSubmit(values: z.infer<typeof SignInFormSchema>) {
-    await signin(values);
-    location.reload();
-    // closeDialog();
+    const result = await signin(values);
+    if (result) {
+      setSubmitResults({ isSuccess: result.success, message: result.message });
+
+      if (result.success) location.reload();
+    }
   }
 
   const handlePasswordVisibility = (e: React.MouseEvent<HTMLElement>) => {
@@ -74,7 +76,7 @@ export function SignInForm() {
         <span>or</span>
         <span className="h-px w-full border border-muted-foreground/20" />
       </div>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <FormField
             control={form.control}
@@ -124,7 +126,7 @@ export function SignInForm() {
             type={submitResults.isSuccess ? "success" : "error"}
           />
         )}
-        <Button variant="link" className="mb-4 mt-2 justify-start p-0">
+        <Button variant="link" className="justify-start p-0">
           <Link href={"/auth/reset-password"}>Forgot password?</Link>
         </Button>
         <Button className="w-full" type="submit">

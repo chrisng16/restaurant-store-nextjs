@@ -1,6 +1,7 @@
 import React from "react";
 import CardsView from "./card-view/CardsView";
 import Cart from "./Cart";
+import CartFab from "./CartFab";
 
 const Body = () => {
   return (
@@ -8,8 +9,12 @@ const Body = () => {
       <div className="col-span-6 w-full">
         <CardsView />
       </div>
-      <div className="hidden lg:block col-span-2 w-full border-2 border-l px-2">
+      <div className="col-span-2 hidden w-full border-2 border-l px-2 lg:block">
         <Cart />
+      </div>
+
+      <div className="md:hidden">
+        <CartFab />
       </div>
     </div>
   );
