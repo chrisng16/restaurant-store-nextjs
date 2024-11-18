@@ -5,8 +5,6 @@ import { Button } from "@/components/ui/button";
 const DashboardPage = async () => {
   const session = await auth();
 
-  const { firstName, lastName } = session?.user;
-
   const signOutAction = async () => {
     "use server";
     await signOut({ redirectTo: "/" });
@@ -16,7 +14,7 @@ const DashboardPage = async () => {
     <div>
       DashboardPage
       <h1>
-        Welcome back, {firstName} {lastName}
+        Welcome back, {session?.user?.firstName} {session?.user?.lastName}
       </h1>
       <form action={signOutAction}>
         <Button type="submit">Sign Out</Button>

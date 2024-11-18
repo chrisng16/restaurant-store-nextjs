@@ -30,7 +30,7 @@ const useActiveElement = (ids: string[], offset?: number): string => {
                 }
             });
             setActiveDiv(inViewElement);
-        }, 50); // Adjust debounce delay as needed
+        }, 15); // Adjust debounce delay as needed
 
         // Attach scroll event listener
         window.addEventListener("scroll", handleScroll);

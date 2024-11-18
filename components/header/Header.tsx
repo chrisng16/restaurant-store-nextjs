@@ -18,7 +18,7 @@ const Header = () => {
         <SearchBox />
         <div className="flex w-full items-center justify-end gap-2">
           <Button className="hidden md:flex">
-            <Icons.Cart className="size-4" strokeWidth={2}/>{" "}
+            <Icons.Cart className="size-4" strokeWidth={2} />{" "}
             <span className="text-base leading-10">0</span>
           </Button>
           <UserButton />

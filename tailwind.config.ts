@@ -55,7 +55,8 @@ const config: Config = {
         }
       },
       fontFamily: {
-        'great-vibes': ['Great Vibes', 'cursive']
+        'great-vibes': ['Great Vibes', 'cursive'],
+        'roboto': ["Roboto", 'sans-serif']
       },
       borderRadius: {
         lg: 'var(--radius)',

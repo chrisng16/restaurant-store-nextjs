@@ -12,16 +12,19 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   children,
+  modal,
 }: Readonly<{
   children: React.ReactNode;
+  modal: React.ReactNode;
 }>) {
   const session = await auth();
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={`antialiased`}>
+      <body className={`font-roboto antialiased`}>
         <SessionProvider session={session}>
           <Header />
         </SessionProvider>
+        {modal}
         {children}
         <Toaster />
       </body>

@@ -66,19 +66,20 @@ model PasswordResetToken {
 }
 
 model Item {
-  id         Int      @id @default(autoincrement())
-  name       String
-  desc       String
-  category   Category @relation(fields: [catId], references: [id])
-  catId      Int
-  price      Int
-  isAvaiable Boolean  @default(true)
-  menuNum    String
-  optionList Option[]
+  id          Int      @id @default(autoincrement())
+  name        String
+  desc        String
+  category    Category @relation(fields: [catId], references: [id])
+  catId       Int
+  price       Int
+  isAvailable Boolean  @default(true)
+  menuNum     String   @unique
+  optionList  Option[]
 }
 
 model Option {
   id         Int            @id @default(autoincrement())
+  name       String
   isOptional Boolean
   options    OptionChoice[]
   Item       Item[]
@@ -86,7 +87,7 @@ model Option {
 
 model OptionChoice {
   id        Int      @id @default(autoincrement())
-  name      String
+  name      String   @unique
   unitPrice Int
   Option    Option[]
 }

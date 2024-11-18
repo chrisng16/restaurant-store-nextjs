@@ -1,20 +1,32 @@
 "use client";
-
-import { Dialog, DialogOverlay, DialogContent } from "@/components/ui/dialog";
 import { useRouter } from "next/navigation";
+import React from "react";
+import { Dialog, DialogContent, DialogOverlay } from "./ui/dialog";
+import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
 
-export function Modal({ children }: { children: React.ReactNode }) {
+const Modal = ({
+  children,
+  title,
+  desc,
+}: {
+  children: React.ReactNode;
+  title: string;
+  desc: string;
+}) => {
   const router = useRouter();
-
-  const closeModal = () => {
+  const handleOpenChange = () => {
     router.back();
   };
 
   return (
-    <Dialog defaultOpen={true} open={true} onOpenChange={closeModal}>
+    <Dialog defaultOpen={true} open={true} onOpenChange={handleOpenChange}>
       <DialogOverlay>
-        <DialogContent className="overflow-y-hidden">{children}</DialogContent>
+        <DialogTitle className="sr-only">{title}</DialogTitle>
+        <DialogDescription className="sr-only">{desc}</DialogDescription>
+        <DialogContent className="p-0">{children}</DialogContent>
       </DialogOverlay>
     </Dialog>
   );
-}
+};
+
+export default Modal;

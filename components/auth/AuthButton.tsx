@@ -1,76 +1,34 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
-import { useState } from "react";
-import { SignUpForm } from "./SignUpForm";
-import { SignInForm } from "./SignInForm";
+
+
+import SignInPage from "@/app/auth/sign-in/page";
+import SignUpPage from "@/app/auth/sign-up/page";
+
+import Link from "next/link";
 
 type AuthButton = {
   children: React.ReactNode;
-  type: string;
+  type: "sign-in" | "sign-up";
+  mode: "redirect" | "modal";
 };
 
-export function AuthButton({ children, type }: AuthButton) {
-  const [open, setOpen] = useState(false);
-  const [openDialog, setOpenDialog] = useState(type);
-
-  // function closeDialog() {
-  //   setOpen(false);
-  // }
-
-  return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>{children}</DialogTrigger>
-      {openDialog === "sign-in" ? (
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>Sign In to Restaurant App</DialogTitle>
-            <DialogDescription>
-              Welcome back! Please sign in to continue
-            </DialogDescription>
-          </DialogHeader>
-          <SignInForm  />
-          <DialogFooter className="text-xs">
-            <span className="text-muted-foreground">
-              Don&apos;t have an account?
-            </span>
-            <span
-              className="hover:underline"
-              onClick={() => setOpenDialog("sign-up")}
-            >
-              Sign Up
-            </span>
-          </DialogFooter>
+export function AuthButton({ children, type, mode }: AuthButton) {
+  if (mode === "modal") {
+    return (
+      <Dialog>
+        <DialogTrigger
+          asChild
+          className={`${type === "sign-up" ? "hidden sm:block" : ""}`}
+        >
+          {children}
+        </DialogTrigger>
+        <DialogContent>
+          {type === "sign-in" ? <SignInPage /> : <SignUpPage />}
         </DialogContent>
-      ) : (
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>Create Your Account</DialogTitle>
-            <DialogDescription>
-              Welcome! Please fill in some quick details to get started
-            </DialogDescription>
-          </DialogHeader>
-          <SignUpForm />
-          <DialogFooter className="text-xs">
-            <span className="text-muted-foreground">
-              Already have an account?
-            </span>
-            <span
-              className="hover:underline"
-              onClick={() => setOpenDialog("sign-in")}
-            >
-              Sign In
-            </span>
-          </DialogFooter>
-        </DialogContent>
-      )}
-    </Dialog>
-  );
+      </Dialog>
+    );
+  }
+
+  return <Link href={`/auth/${type}`}>{children}</Link>;
 }

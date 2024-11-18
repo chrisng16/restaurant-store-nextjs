@@ -11,25 +11,35 @@ import { Icons } from "../Icons";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import SignoutButton from "./SignoutButton";
 import { Button } from "../ui/button";
-import { useRouter } from "next/navigation";
+import { AuthButton } from "../auth/AuthButton";
 
 const UserButton = () => {
-  const router = useRouter();
   const user = useCurrentUser();
 
-  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
-    router.push(`/auth/${e.currentTarget.id}`);
-  };
+
+  // if (!user) {
+
+  //   return (
+  //     <>
+  //       <Button id="sign-in" onClick={handleClick}>
+  //         Sign In
+  //       </Button>
+  //       <Button id="sign-up" onClick={handleClick} className="hidden sm:block">
+  //         Sign Up
+  //       </Button>
+  //     </>
+  //   );
+  // }
 
   if (!user) {
     return (
       <>
-        <Button id="sign-in" onClick={handleClick}>
-          Sign In
-        </Button>
-        <Button id="sign-up" onClick={handleClick} className="hidden sm:block">
-          Sign Up
-        </Button>
+        <AuthButton type={"sign-in"} mode={"modal"}>
+          <Button>Sign In</Button>
+        </AuthButton>
+        <AuthButton type={"sign-up"} mode={"modal"}>
+          <Button>Sign Up</Button>
+        </AuthButton>
       </>
     );
   }

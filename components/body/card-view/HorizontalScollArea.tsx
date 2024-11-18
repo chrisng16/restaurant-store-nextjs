@@ -3,29 +3,17 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Icons } from "@/components/Icons";
 import useActiveElement from "@/hooks/use-active-element";
 
-const categories: Array<string> = [
-  "Appetizers",
-  "Beef Noodle Soups",
-  "Chicken Noodle Soups",
-  "Chef's Specials",
-  "Special Combos (For 2 Persons)",
-  "Chow Fun and Chow Mein",
-  "Rice Plates",
-  "Vegeterian Dishes",
-  "Congees",
-  "Party Trays",
-  "Beverages",
-  "Smoothies",
-  "Sweet Dessert",
-  "Extras",
-];
-const HorizontalScollArea = () => {
+interface Props {
+  categories: string[];
+}
+
+const HorizontalScollArea: React.FC<Props> = ({ categories }) => {
   const activeElement = useActiveElement(categories);
   const [active, setActive] = useState(activeElement);
 
   const findActiveElementIndex = useCallback(() => {
     return categories.findIndex((category) => category === active);
-  }, [active]);
+  }, [active, categories]);
 
   useEffect(() => {
     setActive(activeElement);

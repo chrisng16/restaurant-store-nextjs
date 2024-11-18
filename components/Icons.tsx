@@ -15,6 +15,51 @@ const Cart = (
     </svg>
   );
 };
+const PlusCircle = (
+  props: React.JSX.IntrinsicAttributes & React.SVGProps<SVGSVGElement>,
+) => {
+  const { className, ...rest } = props;
+  return (
+    <svg
+      {...rest}
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={2}
+      stroke="currentColor"
+      className={cn("size-5", className)}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+      />
+    </svg>
+  );
+};
+const MinusCircle = (
+  props: React.JSX.IntrinsicAttributes & React.SVGProps<SVGSVGElement>,
+) => {
+  const { className, ...rest } = props;
+  return (
+    <svg
+      {...rest}
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={2}
+      stroke="currentColor"
+      className={cn("size-5", className)}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+      />
+    </svg>
+  );
+};
+
 const Apple = (
   props: React.JSX.IntrinsicAttributes & React.SVGProps<SVGSVGElement>,
 ) => {
@@ -250,6 +295,28 @@ const SignOut = (
     </svg>
   );
 };
+const X = (
+  props: React.JSX.IntrinsicAttributes & React.SVGProps<SVGSVGElement>,
+) => {
+  const { className, ...rest } = props;
+  return (
+    <svg
+      {...rest}
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={3}
+      stroke="currentColor"
+      className={cn("size-5", className)}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M6 18 18 6M6 6l12 12"
+      />
+    </svg>
+  );
+};
 
 export const Icons = {
   Cart,
@@ -263,4 +330,7 @@ export const Icons = {
   Google,
   User,
   SignOut,
+  PlusCircle,
+  MinusCircle,
+  X
 };
