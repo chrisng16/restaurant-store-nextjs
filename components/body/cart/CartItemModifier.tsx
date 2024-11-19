@@ -34,9 +34,9 @@ const CartItemModifier = ({
         className="rounded-full bg-white/80 text-color-secondary shadow-sm"
         onClick={() => handleModifierBtnClicked("subtract")}
       >
-        <Icons.MinusCircle />
+        {item.qty === 1 ? <Icons.Trash /> : <Icons.MinusCircle />}
       </Button>
-      <span className="flex w-8 items-center justify-center text-center text-sm font-semibold">
+      <span className="flex w-6 items-center justify-center text-center text-sm font-semibold">
         {item.qty} <Icons.X className="size-2.5" />
       </span>
       <Button

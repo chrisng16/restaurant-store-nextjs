@@ -5,14 +5,13 @@ import CartFab from "./CartFab";
 
 const Body = () => {
   return (
-    <div className="grid h-auto grid-cols-1 lg:grid-cols-8">
-      <div className="col-span-5 w-full xl:col-span-6">
+    <div className="flex max-w-full">
+      <div className="min-w-0 grow">
         <CardsView />
       </div>
-      <div className="col-span-3 hidden w-full border-2 border-l px-2 lg:block xl:col-span-2">
+      <div className="hidden w-[350px] shrink-0 border-2 border-l px-2 lg:block">
         <Cart />
       </div>
-
       <div className="md:hidden">
         <CartFab />
       </div>

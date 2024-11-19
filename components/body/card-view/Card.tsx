@@ -1,10 +1,22 @@
-// import { Icons } from "@/components/Icons";
+"use client";
 import Image from "next/image";
 import React from "react";
 import { Item } from "@/data/item";
 import Link from "next/link";
+import { useCartStore } from "@/store";
 
 const Card = ({ item }: { item: Item }) => {
+  const { addCartItem } = useCartStore();
+  const handleAddBtnClicked = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addCartItem({
+      name: item.name,
+      menuNum: item.menuNum,
+      qty: 1,
+      itemTotal: item.price,
+    });
+  };
   return (
     <Link
       scroll={false}
@@ -28,9 +40,14 @@ const Card = ({ item }: { item: Item }) => {
         width={130}
         height={130}
       />
-      <button className="absolute bottom-2 right-2 hidden rounded-full bg-color-main px-4 py-1 text-sm text-color-secondary hover:scale-110 group-hover:block">
-        ADD
-      </button>
+      {item.optionList.length === 0 && (
+        <button
+          onClick={handleAddBtnClicked}
+          className="absolute bottom-2 right-2 hidden rounded-full bg-color-main px-4 py-1 text-sm text-color-secondary hover:scale-110 group-hover:block"
+        >
+          ADD
+        </button>
+      )}
     </Link>
   );
 };

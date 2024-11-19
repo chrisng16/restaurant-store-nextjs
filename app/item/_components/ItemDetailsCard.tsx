@@ -19,6 +19,7 @@ import { useCartStore } from "@/store";
 import { OptionChoice } from "@prisma/client";
 import React, { useEffect, useState } from "react";
 import { calculateCartItem } from "@/actions/item";
+import { useRouter } from "next/navigation";
 
 export type ItemDetails = {
   itemName: string;
@@ -31,6 +32,7 @@ export type ItemDetails = {
 
 const ItemDetailsCard = ({ item }: { item: Item }) => {
   const { addCartItem, cartItems } = useCartStore();
+  const router = useRouter();
 
   // Get the optionList and sort it so that the required options goes first
   const { optionList } = item;
@@ -47,10 +49,6 @@ const ItemDetailsCard = ({ item }: { item: Item }) => {
 
   const [itemDetails, setItemDetails] =
     useState<ItemDetails>(defaultItemDetails);
-
-  useEffect(() => {
-    console.log(cartItems);
-  }, [cartItems]);
 
   const onAddToCartBtnClicked = async () => {
     const combinedOptions = itemDetails.selectedRequiredOption
@@ -69,6 +67,7 @@ const ItemDetailsCard = ({ item }: { item: Item }) => {
     });
 
     addCartItem(calculatedCartItem);
+    router.back();
   };
 
   const renderOptionChoice = (isOptional: boolean, options: OptionChoice[]) => {
@@ -172,7 +171,7 @@ const ItemDetailsCard = ({ item }: { item: Item }) => {
         <div className="flex gap-2">
           <Button
             variant="secondary"
-            disabled={itemDetails.qty <= 0}
+            disabled={itemDetails.qty <= 1}
             size="icon"
             className="rounded-full text-color-secondary"
             onClick={() =>

@@ -60,5 +60,5 @@ export async function calculateItemTotal(cartItem: CartItem): Promise<CartItem> 
         results.forEach(result => itemTotal += result?.unitPrice || 0)
     }
 
-    return { ...cartItem, itemTotal: itemTotal * qty }
+    return { ...cartItem, itemTotal }
 }

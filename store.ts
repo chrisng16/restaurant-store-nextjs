@@ -22,6 +22,7 @@ export type Cart = {
 export type Actions = {
     addCartItem: (item: CartItem) => void
     updateCartItem: (item: CartItem) => void
+    resetCart: () => void
 }
 
 const isCartItemEqual: (cartItemA: CartItem, cartItemB: CartItem) => boolean = (cartItemA, cartItemB) => {
@@ -36,6 +37,9 @@ export const useCartStore = create<Cart & Actions>()(persist(immer((set) => ({
     ,
     addCartItem: (item: CartItem) => set((state) => {
         let isUpdated = false
+        // if there is no options sent, make default it to an empty array
+        item.options = item.options || []
+
         state.cartItems.map(cartItem => {
             if (isCartItemEqual(cartItem, item)) {
                 cartItem.qty = cartItem.qty + item.qty
@@ -46,10 +50,16 @@ export const useCartStore = create<Cart & Actions>()(persist(immer((set) => ({
             state.cartItems = state.cartItems.concat(item)
         }
         state.itemCount = state.itemCount + item.qty
-        state.cartTotal = state.cartTotal + item.itemTotal
+        state.cartTotal = state.cartTotal + item.itemTotal * item.qty
     }),
     updateCartItem: (item: CartItem) => set((state) => {
         let qtyChange = 0
+        if (item.qty === 0) {
+            state.cartItems = state.cartItems.filter(cartItem => !isCartItemEqual(cartItem, item))
+            state.itemCount -= 1
+            state.cartTotal -= item.itemTotal
+            return
+        }
         state.cartItems.map(cartItem => {
             if (isCartItemEqual(cartItem, item)) {
                 qtyChange = item.qty - cartItem.qty
@@ -57,6 +67,14 @@ export const useCartStore = create<Cart & Actions>()(persist(immer((set) => ({
             }
         })
         state.itemCount = state.itemCount + qtyChange
+        state.cartTotal += item.itemTotal * qtyChange
+
+    }),
+    resetCart: () => set((state) => {
+        state.cartItems = []
+        state.itemCount = 0
+        state.cartTotal = 0
+        state.tax = 0
     })
 })), {
     name: 'cart-store',

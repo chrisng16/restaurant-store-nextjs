@@ -30,8 +30,8 @@ const CardsView = async () => {
   );
 
   return (
-    <div className="relative h-auto w-full">
-      <div className="sticky top-16 z-10 w-full bg-white px-4">
+    <div className="relative h-auto">
+      <div className="sticky top-16 z-10 bg-white px-4">
         <HorizontalScollArea categories={categories} />
       </div>
 
