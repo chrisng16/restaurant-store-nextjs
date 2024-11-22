@@ -6,13 +6,22 @@ import { Button } from "@/components/ui/button";
 import CartResetAlertDialog from "./CartResetAlertDialog";
 import CartTooltip from "./Tooltip";
 
-const Cart = () => {
+const Cart = ({ showButtons = true }: { showButtons: boolean }) => {
   const { cartItems, cartTotal, itemCount, updateCartItem } = useCartStore();
+  const onCheckoutBtnClicked = async () => {
+    const res = await fetch("/api/create-payment-intent", {
+      method: "POST",
+    });
+  };
   return (
-    <div className="sticky top-16 flex h-[calc(100svh-4rem)] flex-col justify-between py-2">
+    <div
+      className={`sticky top-16 m-2 flex ${showButtons ? "h-auto pr-2" : "h-full"} w-full flex-col justify-between py-4 md:min-w-[350px]`}
+    >
       <div className="gap-2 divide-y">
         <p className="pb-2 text-2xl">Cart ({itemCount} items)</p>
-        <div className="h-[58svh] overflow-auto">
+        <div
+          className={`divide-y overflow-auto ${showButtons ? "md:h-[58svh]" : "md:h-max"}`}
+        >
           {cartItems.map((cartItem, index) => (
             <div
               key={index}
@@ -42,11 +51,11 @@ const Cart = () => {
         </div>
       </div>
 
-      <div className="flex flex-col gap-2">
+      <div className="mr-2 flex flex-col gap-2 md:mr-0">
         <div>
           <div className="border border-x-0 py-2">
             <div className="flex items-center justify-between text-sm">
-              <span className="font-normal">Sub-total:</span>
+              <span className="font-normal">Sub-total</span>
               <span> ${(cartTotal / 100).toFixed(2)}</span>
             </div>
             <div className="flex items-center justify-between text-sm">
@@ -71,20 +80,22 @@ const Cart = () => {
             </div>
           </div>
           <div className="flex items-center justify-between pt-2">
-            <span className="font-semibold">Total:</span>
+            <span className="font-semibold">Total due:</span>
             <span> ${((cartTotal * 1.14375) / 100).toFixed(2)}</span>
           </div>
         </div>
-        <div className="space-y-2 px-10 pb-2">
-          <Button variant="success" className="w-full">
-            Check Out
-          </Button>
-          <CartResetAlertDialog>
-            <Button variant="destructive" className="w-full">
-              Reset Cart
+        {showButtons && (
+          <div className="space-y-2 px-10 pb-2">
+            <Button variant="success" className="w-full">
+              Check Out
             </Button>
-          </CartResetAlertDialog>
-        </div>
+            <CartResetAlertDialog>
+              <Button variant="destructive" className="w-full">
+                Reset Cart
+              </Button>
+            </CartResetAlertDialog>
+          </div>
+        )}
       </div>
     </div>
   );
