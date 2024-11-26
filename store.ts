@@ -80,3 +80,18 @@ export const useCartStore = create<Cart & Actions>()(persist(immer((set) => ({
     name: 'cart-store',
     storage: createJSONStorage(() => localStorage),
 }))
+
+
+
+export type SearchKey = {
+    searchKey: string
+    updateSearchKey: (newSearchKey: string) => void
+}
+export const useSearchStore = create<SearchKey>()(
+    immer((set) => ({
+        searchKey: "",
+        updateSearchKey: (newSearchKey: string) => set((state) => {
+            state.searchKey = newSearchKey
+        })
+    }))
+)

@@ -1,5 +1,4 @@
 import { calculateCartItem } from '@/actions/item';
-import { getItemByMenuNum } from '@/data/item';
 import { CartItem } from '@/store';
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
@@ -20,17 +19,38 @@ const getAmount: (cartItems: CartItem[]) => Promise<number> = async (cartItems: 
 
 export async function POST(req: NextRequest) {
     try {
-        const { cartItems, email } = await req.json()
+        const { cartItems, paymentIntentId } = await req.json()
         const amount = await getAmount(cartItems)
 
-        const paymentIntent = await stripe.paymentIntents.create({
-            amount,
-            currency: 'usd',
-            receipt_email: email
-        });
 
-        return NextResponse.json({ clientSecret: paymentIntent.client_secret, amount });
-    } catch (error: any) {
+        let paymentIntent;
+
+        if (paymentIntentId) {
+            // Update existing payment intent
+            paymentIntent = await stripe.paymentIntents.update(paymentIntentId, {
+                amount,
+
+            });
+        } else {
+            // Create a new payment intent
+            paymentIntent = await stripe.paymentIntents.create({
+                amount,
+                currency: "usd",
+                
+            });
+        }
+
+        return NextResponse.json({
+            clientSecret: paymentIntent.client_secret,
+            amount: paymentIntent.amount,
+            paymentIntentId: paymentIntent.id,
+        });
+    } catch (error: unknown) {
+        switch (error) {
+            case 'StripeInvalidRequestError': {
+
+            }
+        }
         console.error('PaymentIntent creation failed:', error);
         return new NextResponse('Internal Server Error', { status: 500 });
     }

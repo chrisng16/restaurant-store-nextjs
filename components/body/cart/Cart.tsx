@@ -8,19 +8,15 @@ import CartTooltip from "./Tooltip";
 
 const Cart = ({ showButtons = true }: { showButtons: boolean }) => {
   const { cartItems, cartTotal, itemCount, updateCartItem } = useCartStore();
-  const onCheckoutBtnClicked = async () => {
-    const res = await fetch("/api/create-payment-intent", {
-      method: "POST",
-    });
-  };
+
   return (
     <div
-      className={`sticky top-16 m-2 flex ${showButtons ? "h-auto pr-2" : "h-full"} w-full flex-col justify-between py-4 md:min-w-[350px]`}
+      className={`sticky top-16 m-2 mt-0 flex h-[calc(100vh-4rem)] w-full flex-col justify-between py-4 md:min-w-[350px] md:pr-2`}
     >
       <div className="gap-2 divide-y">
         <p className="pb-2 text-2xl">Cart ({itemCount} items)</p>
         <div
-          className={`divide-y overflow-auto ${showButtons ? "md:h-[58svh]" : "md:h-max"}`}
+          className={`${showButtons ? "max-h-[calc(100vh-344px)]" : "max-h-[calc(100vh-256px)]"} divide-y overflow-auto`}
         >
           {cartItems.map((cartItem, index) => (
             <div
@@ -87,7 +83,7 @@ const Cart = ({ showButtons = true }: { showButtons: boolean }) => {
         {showButtons && (
           <div className="space-y-2 px-10 pb-2">
             <Button variant="success" className="w-full">
-              Check Out
+              <a href="/checkout">Check Out</a>
             </Button>
             <CartResetAlertDialog>
               <Button variant="destructive" className="w-full">

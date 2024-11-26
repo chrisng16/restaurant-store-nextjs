@@ -1,4 +1,10 @@
 import { z } from 'zod'
+import isMobilePhone from 'validator/lib/isMobilePhone';
+export const UserInfoCollectionFormSchema = z.object({
+    name: z.string().min(1, { message: "Name is required." }).max(50, { message: "Name should be less than 50 characters." }),
+    email: z.string().email({ message: "Invalid email address." }),
+    phone: z.string().refine((str) => isMobilePhone(str, 'en-US'), 'Invalid Phone Number')
+})
 
 export const SetNewPasswordFormSchema = z.object({
     password: z
