@@ -98,24 +98,17 @@ model Category {
   Item     Item[]
 }
 
-model CartItem {
-  id        String @id @default(cuid())
-  itemId    Int
-  optionIds Int[]
-  count     Int
-  Cart      Cart[]
-}
-
-model Cart {
-  id           String     @id @default(cuid())
-  cartItems    CartItem[]
-  cartSubTotal Int
-  Order        Order[]
-}
-
 model Order {
-  id      String  @id @default(cuid())
-  cart    Cart    @relation(fields: [cartId], references: [id])
-  cartId  String
-  isPayed Boolean @default(false)
+  id          String      @id @default(dbgenerated("nanoid(8, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')"))
+  createdAt   DateTime    @default(now())
+  orderStatus OrderStatus @default(UNPAID)
+  cartItems   Json
+  paymentInfo Json
+}
+
+enum OrderStatus {
+  UNPAID
+  PAID
+  ACCEPTED
+  COMPLETED
 }

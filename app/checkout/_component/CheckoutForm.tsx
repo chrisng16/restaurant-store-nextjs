@@ -14,6 +14,10 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { PaymentMethod } from "@stripe/stripe-js";
+import { createOrder } from "@/actions/createOrder";
+import { useCartStore } from "@/store";
+
+import { PaymentInfo } from "@/actions/createOrder";
 
 interface CheckoutFormProps {
   amount: number;
@@ -48,6 +52,7 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ amount }) => {
   const [activeSection, setActiveSection] = useState<string>(
     ActiveSection.USER,
   );
+  const { cartItems } = useCartStore();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -57,7 +62,7 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ amount }) => {
     setLoading(true);
     setError(null);
 
-    const result = await stripe.confirmPayment({
+    const confirmPayment = await stripe.confirmPayment({
       elements,
       confirmParams: {
         return_url: `${window.location.origin}/checkout/payment-success`,
@@ -66,35 +71,49 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ amount }) => {
       redirect: "if_required",
     });
 
-    if (result?.error) {
-      setError(result?.error?.message || "Payment failed. Please try again.");
+    if (confirmPayment?.error) {
+      setError(
+        confirmPayment?.error?.message || "Payment failed. Please try again.",
+      );
       setLoading(false);
       return;
     }
 
-    if (result.paymentIntent?.status === "succeeded") {
-      const payment_method = result.paymentIntent
+    if (confirmPayment.paymentIntent?.status === "succeeded") {
+      const payment_method = confirmPayment.paymentIntent
         .payment_method as PaymentMethod;
+      console.table(payment_method);
       const { card } = payment_method;
       const dateTimeFormatOptions = {
         timeZone: "America/Los_Angeles",
         hour12: true,
       };
-      const dateTime = new Date(result.paymentIntent.created * 1000)
+      const dateTime = new Date(confirmPayment.paymentIntent.created * 1000)
         .toLocaleString("en-US", dateTimeFormatOptions)
         .split(",");
 
-      const paymentData = {
+      let paymentInfo: PaymentInfo = {
+        paymentId: payment_method.id,
         date: dateTime[0],
         time: dateTime[1],
-        name: billingDetails.name,
-        phone: billingDetails.phone,
-        email: billingDetails.email,
-        cardBrand: card?.brand,
-        last4: card?.last4,
+        userInfo: {
+          name: billingDetails.name,
+          phone: billingDetails.phone,
+          email: billingDetails.email,
+        },
+        cardBrand: card?.brand || "",
+        last4: card?.last4 || "",
+        amount: confirmPayment.paymentIntent.amount,
       };
 
-      sessionStorage.setItem("paymentData", JSON.stringify(paymentData));
+      //TODO: create new order and send confirmation email
+      if (cartItems && paymentInfo) {
+        const { orderId } = await createOrder(cartItems, paymentInfo);
+        paymentInfo = { ...paymentInfo, orderId };
+      }
+
+      sessionStorage.setItem("paymentData", JSON.stringify(paymentInfo));
+      window.location.href = `${window.location.origin}/checkout/payment-success`;
 
       // console.log(JSON.stringify(paymentData));
       // try {
@@ -114,7 +133,6 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ amount }) => {
       //   }
 
       //   // Redirect to payment success page after email is sent
-      window.location.href = `${window.location.origin}/checkout/payment-success`;
       // } catch (emailError) {
       //   // Handle email sending failure
       //   setError(

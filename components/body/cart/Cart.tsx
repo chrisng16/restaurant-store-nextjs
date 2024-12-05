@@ -5,16 +5,30 @@ import CartItemModifier from "./CartItemModifier";
 import { Button } from "@/components/ui/button";
 import CartResetAlertDialog from "./CartResetAlertDialog";
 import CartTooltip from "./Tooltip";
+import { cn } from "@/lib/utils";
 
-const Cart = ({ showButtons = true }: { showButtons: boolean }) => {
+const Cart = ({
+  showButtons = true,
+  showModifier = true,
+  className,
+  title,
+}: {
+  showButtons: boolean;
+  className?: string;
+  showModifier?: boolean;
+  title?: string;
+}) => {
   const { cartItems, cartTotal, itemCount, updateCartItem } = useCartStore();
 
   return (
     <div
-      className={`sticky top-16 m-2 mt-0 flex h-[calc(100vh-4rem)] w-full flex-col justify-between py-4 md:min-w-[350px] md:pr-2`}
+      className={cn(
+        "sticky top-16 m-2 mt-0 flex h-[calc(100vh-4rem)] w-full flex-col justify-between p-2 py-4 md:min-w-[350px]",
+        className,
+      )}
     >
       <div className="gap-2 divide-y">
-        <p className="pb-2 text-2xl">Cart ({itemCount} items)</p>
+        <p className="pb-2 text-2xl">{title || `Cart (${itemCount} items)`}</p>
         <div
           className={`${showButtons ? "max-h-[calc(100vh-344px)]" : "max-h-[calc(100vh-256px)]"} divide-y overflow-auto`}
         >
@@ -36,12 +50,14 @@ const Cart = ({ showButtons = true }: { showButtons: boolean }) => {
                   ${((cartItem.itemTotal * cartItem.qty) / 100).toFixed(2)}
                 </span>
               </div>
-              <div>
-                <CartItemModifier
-                  item={cartItem}
-                  updateCartItem={updateCartItem}
-                />
-              </div>
+              {showModifier && (
+                <div>
+                  <CartItemModifier
+                    item={cartItem}
+                    updateCartItem={updateCartItem}
+                  />
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -66,17 +82,21 @@ const Cart = ({ showButtons = true }: { showButtons: boolean }) => {
             </div>
             <div className="flex items-center justify-between text-sm">
               <div className="flex gap-1 font-normal">
-                Estimated Tax
-                <CartTooltip>
-                  <p className="font-semibold">Estimated Tax: 9.375%</p>
-                  <p>Finalized tax will be shown on your order receipt.</p>
-                </CartTooltip>
+                <span>{title ? "Tax" : "Estimated Tax"}</span>
+                {!title && (
+                  <CartTooltip>
+                    <p className="font-semibold">Tax: 9.375%</p>
+                    <p>Finalized tax will be shown on your order receipt.</p>
+                  </CartTooltip>
+                )}
               </div>
               <span> ${((cartTotal * 0.09375) / 100).toFixed(2)}</span>
             </div>
           </div>
           <div className="flex items-center justify-between pt-2">
-            <span className="font-semibold">Total due:</span>
+            <span className="font-semibold">
+              {title ? "Paid:" : "Total due:"}
+            </span>
             <span> ${((cartTotal * 1.14375) / 100).toFixed(2)}</span>
           </div>
         </div>
