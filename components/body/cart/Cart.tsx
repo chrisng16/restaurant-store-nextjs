@@ -13,7 +13,7 @@ const Cart = ({
   className,
   title,
 }: {
-  showButtons: boolean;
+  showButtons?: boolean;
   className?: string;
   showModifier?: boolean;
   title?: string;
@@ -23,7 +23,7 @@ const Cart = ({
   return (
     <div
       className={cn(
-        "sticky top-16 m-2 mt-0 flex h-[calc(100vh-4rem)] w-full flex-col justify-between p-2 py-4 md:min-w-[350px]",
+        "sticky top-16 m-0 flex h-[calc(100vh-4rem)] w-full flex-col justify-between p-2 py-4 md:min-w-[350px]",
         className,
       )}
     >
@@ -51,7 +51,7 @@ const Cart = ({
                 </span>
               </div>
               {showModifier && (
-                <div>
+                <div className="pr-1">
                   <CartItemModifier
                     item={cartItem}
                     updateCartItem={updateCartItem}
@@ -102,7 +102,11 @@ const Cart = ({
         </div>
         {showButtons && (
           <div className="space-y-2 px-10 pb-2">
-            <Button variant="success" className="w-full">
+            <Button
+              variant="success"
+              disabled={itemCount === 0}
+              className="w-full"
+            >
               <a href="/checkout">Check Out</a>
             </Button>
             <CartResetAlertDialog>

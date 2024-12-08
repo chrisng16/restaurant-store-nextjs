@@ -16,7 +16,6 @@ import { AuthButton } from "../auth/AuthButton";
 const UserButton = () => {
   const user = useCurrentUser();
 
-
   // if (!user) {
 
   //   return (
@@ -35,7 +34,12 @@ const UserButton = () => {
     return (
       <>
         <AuthButton type={"sign-in"} mode={"modal"}>
-          <Button>Sign In</Button>
+          <div>
+            <Button size="icon" variant="ghost" className="sm:hidden">
+              <Icons.SignIn />
+            </Button>
+            <Button className="hidden sm:block">Sign In</Button>
+          </div>
         </AuthButton>
         <AuthButton type={"sign-up"} mode={"modal"}>
           <Button>Sign Up</Button>

@@ -23,7 +23,9 @@ const Modal = ({
       <DialogOverlay>
         <DialogTitle className="sr-only">{title}</DialogTitle>
         <DialogDescription className="sr-only">{desc}</DialogDescription>
-        <DialogContent className="p-0">{children}</DialogContent>
+        <DialogContent className="mx-auto w-[calc(100%-16px)] p-0">
+          {children}
+        </DialogContent>
       </DialogOverlay>
     </Dialog>
   );

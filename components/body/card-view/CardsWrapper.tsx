@@ -27,13 +27,16 @@ const CardsWrapper = ({ categories, items }: CardsWrapperProps) => {
     );
   };
 
-  const renderCategoryBlock = (category: string, id: number) => {
+  const renderCategoryBlock = (category: string) => {
     const filteredItems = items
       .filter((item) => item.category.category === category)
       .filter((item) => searchFilter(item, searchKey));
     if (!filteredItems.length) return null;
     return (
-      <div id={category} key={id} className="scroll-mt-28 p-2 pb-10 pt-4">
+      <div
+        id={category}
+        className="scroll-mt-16 p-2 pb-10 pt-4 sm:scroll-mt-28"
+      >
         <h3 className="p-4 pt-0 text-xl font-semibold text-color-secondary">
           {category}
         </h3>
@@ -48,7 +51,7 @@ const CardsWrapper = ({ categories, items }: CardsWrapperProps) => {
   return (
     <>
       {categories.map((category, id) => (
-        <div>{renderCategoryBlock(category, id)}</div>
+        <div key={id}>{renderCategoryBlock(category)}</div>
       ))}
     </>
   );

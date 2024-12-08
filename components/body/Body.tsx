@@ -1,7 +1,7 @@
 import React from "react";
 import CardsView from "./card-view/CardsView";
 import Cart from "./cart/Cart";
-import CartFab from "./CartFab";
+import CartButton from "./CartButton";
 
 const Body = () => {
   return (
@@ -13,7 +13,7 @@ const Body = () => {
         <Cart showButtons={true} />
       </div>
       <div className="md:hidden">
-        <CartFab />
+        <CartButton variant="fab" />
       </div>
     </div>
   );

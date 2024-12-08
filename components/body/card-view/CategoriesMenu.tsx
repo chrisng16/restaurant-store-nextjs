@@ -7,7 +7,7 @@ interface Props {
   categories: string[];
 }
 
-const HorizontalScollArea: React.FC<Props> = ({ categories }) => {
+const CategoriesMenu: React.FC<Props> = ({ categories }) => {
   const activeElement = useActiveElement(categories);
   const [active, setActive] = useState(activeElement);
 
@@ -91,4 +91,4 @@ const HorizontalScollArea: React.FC<Props> = ({ categories }) => {
   );
 };
 
-export default HorizontalScollArea;
+export default CategoriesMenu;

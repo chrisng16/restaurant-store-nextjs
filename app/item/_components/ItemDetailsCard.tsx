@@ -17,7 +17,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Item } from "@/data/item";
 import { useCartStore } from "@/store";
 import { OptionChoice } from "@prisma/client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { calculateCartItem } from "@/actions/item";
 import { useRouter } from "next/navigation";
 
@@ -31,7 +31,7 @@ export type ItemDetails = {
 };
 
 const ItemDetailsCard = ({ item }: { item: Item }) => {
-  const { addCartItem, cartItems } = useCartStore();
+  const { addCartItem } = useCartStore();
   const router = useRouter();
 
   // Get the optionList and sort it so that the required options goes first

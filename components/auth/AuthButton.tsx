@@ -1,7 +1,5 @@
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
-
-
 import SignInPage from "@/app/auth/sign-in/page";
 import SignUpPage from "@/app/auth/sign-up/page";
 
@@ -19,7 +17,7 @@ export function AuthButton({ children, type, mode }: AuthButton) {
       <Dialog>
         <DialogTrigger
           asChild
-          className={`${type === "sign-up" ? "hidden sm:block" : ""}`}
+          className={`${type === "sign-up" ? "hidden md:block" : ""}`}
         >
           {children}
         </DialogTrigger>

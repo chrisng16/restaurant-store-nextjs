@@ -139,14 +139,14 @@ const Search = (
 const ArrowLeft = (
   props: React.JSX.IntrinsicAttributes & React.SVGProps<SVGSVGElement>,
 ) => {
-  const { className, ...rest } = props;
+  const { className, strokeWidth, ...rest } = props;
   return (
     <svg
       {...rest}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
-      strokeWidth={1.5}
+      strokeWidth={strokeWidth || 1.5}
       stroke="currentColor"
       className={cn("size-6", className)}
     >
@@ -295,6 +295,28 @@ const SignOut = (
     </svg>
   );
 };
+const SignIn = (
+  props: React.JSX.IntrinsicAttributes & React.SVGProps<SVGSVGElement>,
+) => {
+  const { className, ...rest } = props;
+  return (
+    <svg
+      {...rest}
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={2}
+      stroke="currentColor"
+      className={cn("size-6", className)}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15M12 9l3 3m0 0-3 3m3-3H2.25"
+      />
+    </svg>
+  );
+};
 const X = (
   props: React.JSX.IntrinsicAttributes & React.SVGProps<SVGSVGElement>,
 ) => {
@@ -313,6 +335,28 @@ const X = (
         strokeLinecap="round"
         strokeLinejoin="round"
         d="M6 18 18 6M6 6l12 12"
+      />
+    </svg>
+  );
+};
+const Hamburger = (
+  props: React.JSX.IntrinsicAttributes & React.SVGProps<SVGSVGElement>,
+) => {
+  const { className, strokeWidth, ...rest } = props;
+  return (
+    <svg
+      {...rest}
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={strokeWidth || 1.5}
+      stroke="currentColor"
+      className={cn("size-5", className)}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
       />
     </svg>
   );
@@ -374,9 +418,11 @@ export const Icons = {
   Google,
   User,
   SignOut,
+  SignIn,
   PlusCircle,
   MinusCircle,
   X,
   Trash,
   Info,
+  Hamburger,
 };

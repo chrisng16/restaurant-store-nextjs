@@ -1,4 +1,4 @@
-import HorizontalScollArea from "./HorizontalScollArea";
+import CategoriesMenu from "./CategoriesMenu";
 import { getAllItems } from "@/data/item";
 import CardsWrapper from "./CardsWrapper";
 
@@ -30,8 +30,8 @@ const CardsView = async () => {
 
   return (
     <div className="relative h-auto">
-      <div className="sticky top-16 z-10 bg-white px-4">
-        <HorizontalScollArea categories={categories} />
+      <div className="sticky top-16 z-10 hidden bg-white px-4 sm:block">
+        <CategoriesMenu categories={categories} />
       </div>
 
       <div>

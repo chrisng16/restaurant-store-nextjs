@@ -8,7 +8,7 @@ export default function CheckoutLayout({
 }) {
   return (
     <div className="mx-auto w-full">
-      <CheckoutHeader />
+      {/* <CheckoutHeader /> */}
       {children}
     </div>
   );
