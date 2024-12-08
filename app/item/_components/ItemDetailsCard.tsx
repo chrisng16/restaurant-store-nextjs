@@ -137,17 +137,17 @@ const ItemDetailsCard = ({ item }: { item: Item }) => {
   };
 
   return (
-    <Card className="max-w-screen mx-auto w-full border-0 shadow-none">
-      <CardHeader className="p-0">
-        <Skeleton className="h-56 w-full" />
-        <div className="flex flex-col space-y-1.5 px-6 py-4">
+    <Card className="max-w-screen mx-auto flex max-h-[calc(100vh-4rem)] w-full flex-col divide-y border-0 shadow-none">
+      <CardHeader className="shrink-0 p-0">
+        <Skeleton className="h-56 w-full rounded-b-none" />
+        <div className="flex flex-col space-y-1.5 px-6 pb-2 pt-4">
           <CardTitle>
             {item.menuNum}. {item.name}
           </CardTitle>
           <CardDescription>{item.desc}</CardDescription>
         </div>
       </CardHeader>
-      <CardContent className="space-y-6 py-0">
+      <CardContent className="shrink space-y-6 overflow-scroll pb-0 pt-4">
         {optionList?.map((option, index) => (
           <div key={index} className="mb-4">
             <div className="grid">
@@ -167,7 +167,7 @@ const ItemDetailsCard = ({ item }: { item: Item }) => {
           </div>
         ))}
       </CardContent>
-      <CardFooter className="flex justify-between pt-2">
+      <CardFooter className="flex justify-between pt-4">
         <div className="flex gap-2">
           <Button
             variant="secondary"

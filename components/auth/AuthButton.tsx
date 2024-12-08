@@ -14,14 +14,14 @@ type AuthButton = {
 export function AuthButton({ children, type, mode }: AuthButton) {
   if (mode === "modal") {
     return (
-      <Dialog>
+      <Dialog >
         <DialogTrigger
           asChild
           className={`${type === "sign-up" ? "hidden md:block" : ""}`}
         >
           {children}
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent className="p-0">
           {type === "sign-in" ? <SignInPage /> : <SignUpPage />}
         </DialogContent>
       </Dialog>

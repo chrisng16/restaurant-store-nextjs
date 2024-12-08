@@ -25,7 +25,8 @@ const CardWrapper = ({
   redirectText,
 }: CardWrapperProps) => {
   return (
-    <Card className="mx-auto my-6 w-full max-w-md">
+    // Add "mx-auto my-6 max-w-md" to className if decide to go back to page instead of Modal
+    <Card className="w-full border-0">
       <CardHeader>
         <CardTitle>{title}</CardTitle>
         <CardDescription>{desc}</CardDescription>
