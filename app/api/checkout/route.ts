@@ -42,8 +42,7 @@ export async function POST(req: NextRequest) {
         });
 
         return NextResponse.json({ clientSecret: session.client_secret });
-    } catch (error: any) {
-        console.log(error)
-        return NextResponse.json({ error: error.message }, { status: 400 });
+    } catch (error: unknown) {
+        return NextResponse.json({ error: (error as Error).message }, { status: 400 });
     }
 }
