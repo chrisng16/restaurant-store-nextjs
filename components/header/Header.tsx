@@ -19,7 +19,7 @@ const Header = () => {
     <div
       className={`font-leagueSpartan sticky top-0 z-20 flex h-16 w-full items-center justify-between overflow-x-clip bg-color-main px-2 text-center text-color-secondary backdrop-blur-md dark:bg-black/30 md:px-4`}
     >
-      {pathname === "/checkout" && (
+      {pathname === "/checkout" ? (
         <Link
           href={"/"}
           className="group flex items-center justify-start gap-1 pl-2 md:p-0"
@@ -29,10 +29,11 @@ const Header = () => {
             Back to Home
           </span>
         </Link>
+      ) : (
+        <div className="block sm:hidden">
+          <CategoriesSideMenu />
+        </div>
       )}
-      <div className="block sm:hidden">
-        <CategoriesSideMenu />
-      </div>
       <a
         href="\"
         className={` ${pathname === "/checkout" ? "absolute left-1/2 -translate-x-1/2 transform" : ""} absolute left-1/2 mt-2 flex flex-shrink-0 -translate-x-1/2 items-center text-nowrap p-2 text-center font-great-vibes text-3xl font-medium sm:static sm:left-0 sm:translate-x-0`}

@@ -23,7 +23,7 @@ const Cart = ({
   return (
     <div
       className={cn(
-        "sticky top-16 m-0 flex h-[calc(100vh-4rem)] w-full flex-col justify-between p-2 py-4 md:min-w-[350px]",
+        "sticky top-16 m-0 flex h-[calc(100svh-4rem)] w-full flex-col justify-between p-2 py-4 md:min-w-[350px]",
         className,
       )}
     >
